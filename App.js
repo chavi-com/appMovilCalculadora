@@ -1,91 +1,115 @@
-import { useState } from "react";
-import { StyleSheet, Text, View, TextInput, Button } from "react-native";
-import Header from "./components/Header";
+import { useState } from 'react';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image } from 'react-native';
+import Header from './components/Header';
+import { styles } from './assets/styles/MyStyles';
 
 export default function App() {
-  //Hooks para estados con useState
-  const [valor1, setValor1] = useState("");
-  const [valor2, setValor2] = useState("");
-  const [resultado, setresultado] = useState("");
+  // hooks para estados con useState
+  const [valor1, setValor1] = useState('');
+  const [valor2, setValor2] = useState('');
+  const [resultado, setResultado] = useState('');
 
   let mostrar = () => {
-    alert(`el valor uno es ${valor1}`);
-  };
-
+    alert(`El valor es ${valor1}`)
+  }
   let sumar = function () {
-    setresultado(parseFloat(valor1) + parseFloat(valor2));
-  };
+    setResultado(parseFloat(valor1) + parseFloat(valor2))
+  }
 
-  const limpiar = () => {
-    setValor1("");
-    setValor2("");
-  };
+  let calcular = (oper) => {
+    let mresult = 0
+    switch (oper) {
+      case '+':
+        mresult = parseFloat(valor1) + parseFloat(valor2)
+        break;
+      case '-':
+        mresult = parseFloat(valor1) - parseFloat(valor2)
+        break;
+
+      case '*':
+        mresult = parseFloat(valor1) * parseFloat(valor2)
+        break;
+      case '/':
+        mresult = parseFloat(valor1) / parseFloat(valor2)
+        break;
+
+    }
+    setResultado(mresult)
+  }
+
+  let limpiar = () => {
+    setValor1('');
+    setValor2('');
+    setResultado(0);
+  }
   return (
-    <View style={[styles.container, styles.alingView]}>
-      <Header titulo="Banner" subtitulo="principal"></Header>
-      <View style={[styles.viewChild, styles.alingView, { marginTop: 10 }]}>
+    <View style={[styles.container, styles.alignView]}>
+
+      <Header src="fondo.jpg" ></Header>
+
+      <View style={[styles.viewChild, styles.alignView, { marginTop: 10 }]}>
+
         <Image
-          source={{uri : "https://play-lh.googleusercontent.com/F_m9cr5bCZol4q8833jhgFIPlXwI6t969yv-Z2wOwn8_fq5exR7JVsPVq0f0potstHE"}}
-          style={{width:100, height:100}}
-        
-        
+          source={{ uri: 'https://i.pinimg.com/736x/1e/1d/81/1e1d81bc90bb7a1047672672ff033858.jpg' }}
+          style={{ width: 100, height: 100 }}
         />
-        <Text>Valor 1</Text>
+        <Text>valor 1</Text>
         <TextInput
-          placeholder="Ingrese valor 1"
-          style={{
-            borderWidth: 1,
-            borderStyle: "solid",
-            padding: 5,
-            textAlign: "center",
-            borderRadius: 40,
-          }}
-          onChangeText={(valor1) => setValor1(valor1)}
+          placeholder='Ingrese valor 1'
+          style={{ borderWidth: 1, borderStyle: 'solid', padding: 5, textAlign: 'center' }}
+          onChangeText={valor1 => setValor1(valor1)}
           value={valor1}
-        ></TextInput>
-        <Text>Valor 2</Text>
+        />
+        <Text>valor 2</Text>
         <TextInput
-          placeholder="Ingrese valor 2"
-          style={{
-            borderWidth: 1,
-            borderStyle: "solid",
-            padding: 5,
-            textAlign: "center",
-            borderRadius: 40,
-          }}
-          onChangeText={(valor2) => setValor2(valor2)}
+          placeholder='Ingrese valor 2'
+          style={{ borderWidth: 1, borderStyle: 'solid', padding: 5, textAlign: 'center' }}
+          onChangeText={valor2 => setValor2(valor2)}
           value={valor2}
-        ></TextInput>
-        <Text>resultado</Text>
+        />
+        <Text>Resultado</Text>
         <Text>{resultado}</Text>
-        <Text>{"\n"}</Text>
-        <Button title="sumar" onPress={sumar}></Button>
-        <Text>{"\n"}</Text>
-       {/* <Button title="mostrar" onPress={mostrar}></Button>*/}
-        <Text>{"\n"}</Text>
-        <Button title="limpiar" onPress={limpiar}></Button>
+        <TouchableOpacity
+          style={{ backgroundColor: 'blue', padding: 5, borderRadius: 5, width: 40, height: 40, textAlign: 'center',floatLeft:10 }}
+          onPress={() => calcular('+')}
+        >
+          <Text style={{ color: 'white0', fontWeight: 'bold' }}>+</Text>
+        </TouchableOpacity>
+
+        <View style={{flexDirection:'row', flexWrap:'wrap'}}>
+        <TouchableOpacity
+          style={{ backgroundColor: 'red', padding: 5, borderRadius: 5, width: 40, height: 40, textAlign: 'center' }}
+          onPress={() => calcular('-')}
+        >
+          <Text style={{ color: 'white', fontWeight: 'bold' }}>-</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={{ backgroundColor: 'green', padding: 5, borderRadius: 5, width: 40, height: 40, textAlign: 'center' }}
+          onPress={() => calcular('*')}
+        >
+          <Text style={{ color: 'white', fontWeight: 'bold' }}>*</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={{ backgroundColor: 'blue', padding: 5, borderRadius: 5, width: 40, height: 40, textAlign: 'center'  }}
+          onPress={() => calcular('/')}
+        >
+          <Text style={{ color: 'white', fontWeight: 'bold' }}>/</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={{ backgroundColor: 'red', padding: 5, borderRadius: 5, width: 40, height: 40, textAlign: 'center' }}
+          onPress={limpiar}
+        >
+          <Text style={{ color: 'white', fontWeight: 'bold' }}>C</Text>
+        </TouchableOpacity>
+
+        </View>
+
+
       </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "aliceblue",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  viewChild: {
-    flex: 5,
-    backgroundColor: "#049483",
-    width: "80%",
-  },
-  alingView: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
-
-
 
